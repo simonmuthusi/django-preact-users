@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { fetchUsers } from '../actions/index';
 
+import { Link } from 'react-router';
+
 
 class App extends Component {
 	componentWillMount() {
@@ -10,15 +12,38 @@ class App extends Component {
   }
 	renderUsers(){
     return this.props.users.map((user) => {
+      const is_staff = user.is_staff ? 'Yes':'No';
       return (
-        <li className="list-group-item" key={user.id}>
-            <span className="float-right">{user.first_name} {user.last_name} - {user.username}</span></li>
+        <tr key={user.id}>
+        <td>{user.first_name}</td>
+        <td>{user.last_name}</td>
+        <td>{user.username}</td>
+        <td>{user.email}</td>
+        <td>{is_staff}</td>
+        </tr>
       );
     });
 	}
   render() {
     return (
-      <div>{this.renderUsers()}</div>
+      <div><div className="text-xs-right">
+          <Link to="/users/add" className="btn btn-primary">
+            Add a User
+          </Link>
+        </div><table className="table table-striped table-responsive">
+      <thead>
+        <tr>
+        <td>First Name</td>
+        <td>Last Name</td>
+        <td>Username</td>
+        <td>Email</td>
+        <td>Is Staff</td>
+        </tr>
+      </thead>
+      <tbody>
+      {this.renderUsers()}
+      </tbody>
+      </table></div>
     );
   }
 }
